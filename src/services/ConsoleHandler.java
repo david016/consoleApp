@@ -1,13 +1,16 @@
 package services;
 
+import models.Person;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleHandler {
+    private final Scanner scanner = new Scanner(System.in);
+
     public String getUserAction() {
-        Scanner scanner = new Scanner(System.in);
         String userInput;
         List<String> possibleInputs = new ArrayList<>(Arrays.asList("a", "r", "s", "q"));
 
@@ -19,7 +22,7 @@ public class ConsoleHandler {
         return userInput;
     }
 
-    private void promptUser(){
+    private void promptUser() {
         System.out.println("------------------------------");
         System.out.println("Press 'a' to add new person.");
         System.out.println("Press 'r' to remove a person.");
@@ -27,5 +30,16 @@ public class ConsoleHandler {
         System.out.println("Press 'q' to quit.");
         System.out.println("------------------------------");
         System.out.print("You input: ");
+    }
+
+    public Person askForPersonInfo() {
+        String name, surname, idNUmber;
+        System.out.print("Write a name: ");
+        name = scanner.nextLine();
+        System.out.print("Write a surname: ");
+        surname = scanner.nextLine();
+        System.out.print("Write an idNumber: ");
+        idNUmber = scanner.nextLine();
+        return new Person(name,surname,Integer.parseInt(idNUmber));
     }
 }
