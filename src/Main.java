@@ -1,8 +1,9 @@
-import services.ConsoleHandler;
+import services.AppHandler;
 
 public class Main {
     public static void main(String[] args) {
-        ConsoleHandler ah = new ConsoleHandler();
-        ah.getUserAction();
+        AppHandler ah = new AppHandler();
+        ah.startApp();
+        System.out.println(ah.getPeople());
     }
 }

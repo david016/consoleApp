@@ -2,6 +2,9 @@ package services;
 
 import models.Person;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -37,6 +40,7 @@ public class ConsoleHandler {
 
     private String getName(String nameOrSurname) {
         String name;
+
         System.out.print("Write a " + nameOrSurname + ": ");
         do {
             name = scanner.nextLine();
@@ -46,6 +50,7 @@ public class ConsoleHandler {
 
     public String getIdNum() {
         String id;
+
         do {
             System.out.print("Write an idNumber (YYMMDDXXXX or YYMMDD/XXXX): ");
             id = scanner.nextLine();
@@ -55,6 +60,20 @@ public class ConsoleHandler {
 
     private boolean isValid(String id) {
         String regexPattern = "\\d{6}(/)?\\d{4}";
-        return Pattern.matches(regexPattern, id);
+
+        if (!Pattern.matches(regexPattern,id)){
+            return false;
+        }
+        try {
+            String dateString = id.substring(0, 6);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+            LocalDate date = LocalDate.parse(dateString, formatter);
+            // have to convert it back to Str, because parsing Feb31 returns Feb 28/29
+            String dateString2 = date.format(formatter);
+            return dateString.equals(dateString2);
+
+        }catch (DateTimeParseException e){
+            return false;
+        }
     }
 }

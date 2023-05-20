@@ -13,6 +13,7 @@ public class AppHandler {
 
     public void startApp() {
         String userAction = consoleHandler.getUserAction();
+
         while (!userAction.equals("q")) {
             switch (userAction) {
                 case "a" -> addPerson();
@@ -26,6 +27,7 @@ public class AppHandler {
 
     private Person searchPerson() throws NoSuchElementException {
         String id = consoleHandler.getIdNum();
+
         for (Person p: people) {
             if (p.getIdentificationNumber().equals(id)){
                 System.out.println(p);
@@ -37,6 +39,7 @@ public class AppHandler {
 
     private void removePerson() throws NoSuchElementException {
         Person person = searchPerson();
+
         for (Person p : people) {
             if (Objects.equals(p, person)) {
                 people.remove(p);
@@ -48,6 +51,7 @@ public class AppHandler {
 
     private void addPerson() throws IllegalStateException {
         Person newPerson = consoleHandler.askForPersonInfo();
+
         for (Person p : people) {
             if (Objects.equals(p, newPerson)) {
                 throw new IllegalStateException("Person already exists.");
