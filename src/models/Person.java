@@ -13,16 +13,19 @@ public class Person {
 
     @Override
     public String toString() {
-        return name + " " + surname + " " + identificationNumber;
+        return  "Name: "+ name + " " + surname + ", " + "Id: "+ identificationNumber;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        Person that = (Person) o;
-        return this.name.equals(that.name) &&
-                this.surname.equals(that.surname) &&
-                this.identificationNumber.equals(that.identificationNumber);
+
+        // people should not have same id number so I guess checking this is enough
+        return this.identificationNumber.equals(((Person) o).identificationNumber);
+    }
+
+    public String getIdentificationNumber() {
+        return identificationNumber;
     }
 }

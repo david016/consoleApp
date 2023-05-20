@@ -6,27 +6,23 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class ConsoleHandler {
+    private final String separator = "------------------------------";
     private final Scanner scanner = new Scanner(System.in);
 
     public String getUserAction() {
-        String userInput;
-        List<String> possibleInputs = new ArrayList<>(Arrays.asList("a", "r", "s", "q"));
-
+        System.out.println(separator);
         System.out.println("What do you want to do?");
-        do {
-            promptUser();
-            userInput = scanner.nextLine();
-        } while (!possibleInputs.contains(userInput));
-        return userInput;
+        promptUser();
+        return scanner.nextLine();
     }
 
     private void promptUser() {
-        System.out.println("------------------------------");
+        System.out.println(separator);
         System.out.println("Press 'a' to add new person.");
         System.out.println("Press 'r' to remove a person.");
         System.out.println("Press 's' to search a person.");
         System.out.println("Press 'q' to quit.");
-        System.out.println("------------------------------");
+        System.out.println(separator);
         System.out.print("You input: ");
     }
 
@@ -48,10 +44,10 @@ public class ConsoleHandler {
         return name;
     }
 
-    private String getIdNum() {
+    public String getIdNum() {
         String id;
         do {
-            System.out.print("Write an idNumber (YYMMDDXXXX / YYMMDD/XXXX): ");
+            System.out.print("Write an idNumber (YYMMDDXXXX or YYMMDD/XXXX): ");
             id = scanner.nextLine();
         } while (!isValid(id));
         return id;
