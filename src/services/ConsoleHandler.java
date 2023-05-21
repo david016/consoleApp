@@ -5,7 +5,7 @@ import models.Person;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ConsoleHandler {
@@ -31,11 +31,14 @@ public class ConsoleHandler {
 
     public Person askForPersonInfo() {
         String name, surname, idNUmber;
+        boolean bornBefore2000;
 
         name = getName("name");
         surname = getName("surname");
-        idNUmber = getIdNum();
-        return new Person(name, surname, idNUmber);
+        bornBefore2000 = bornBefore2000();
+        idNUmber = getIdNum(bornBefore2000);
+
+        return new Person(name, surname, idNUmber, bornBefore2000);
     }
 
     private String getName(String nameOrSurname) {
@@ -45,34 +48,48 @@ public class ConsoleHandler {
         do {
             name = scanner.nextLine();
         } while (name.length() == 0);
+
         return name;
     }
 
-    public String getIdNum() {
+    public String getIdNum(boolean bornBefore2000) {
         String id;
 
         do {
             System.out.print("Write an idNumber (YYMMDDXXXX or YYMMDD/XXXX): ");
             id = scanner.nextLine();
-        } while (!isValid(id));
+        } while (!isValid(id, bornBefore2000));
+
         return id;
     }
 
-    private boolean isValid(String id) {
+    public boolean bornBefore2000() {
+        String answer;
+
+        do {
+            System.out.print("Have you been born before 2000? (y / n) ");
+            answer = scanner.nextLine();
+        } while (!(answer.equals("y") || answer.equals("n")));
+
+        return answer.equals("y");
+    }
+
+    private boolean isValid(String id, boolean bornBefore2000) {
         String regexPattern = "\\d{6}(/)?\\d{4}";
 
-        if (!Pattern.matches(regexPattern,id)){
+        if (!Pattern.matches(regexPattern, id)) {
             return false;
         }
+
         try {
             String dateString = id.substring(0, 6);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+            DateTimeFormatter formatter = MyDateFormatter.getFormatter(bornBefore2000);
             LocalDate date = LocalDate.parse(dateString, formatter);
             // have to convert it back to Str, because parsing Feb31 returns Feb 28/29
             String dateString2 = date.format(formatter);
             return dateString.equals(dateString2);
 
-        }catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             return false;
         }
     }

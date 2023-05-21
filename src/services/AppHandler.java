@@ -26,10 +26,11 @@ public class AppHandler {
     }
 
     private Person searchPerson() throws NoSuchElementException {
-        String id = consoleHandler.getIdNum();
+        boolean bornBefore2000 = consoleHandler.bornBefore2000();
+        String id = MyDateFormatter.removeSlashFromId(consoleHandler.getIdNum(bornBefore2000));
 
-        for (Person p: people) {
-            if (p.getIdentificationNumber().equals(id)){
+        for (Person p : people) {
+            if (p.getIdentificationNumber().equals(id)) {
                 System.out.println(p);
                 return p;
             }
